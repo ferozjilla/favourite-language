@@ -1,33 +1,69 @@
 import { AppComponent } from './app.component';
+import { UserService } from './user.service';
 
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By }           from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By }              from '@angular/platform-browser';
+import { DebugElement }    from '@angular/core';
 
-describe('AppComponent', function () {
-  let de: DebugElement;
+describe('AppComponent', () => {
   let comp: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ AppComponent ]
-    })
-    .compileComponents();
-  }));
+  let de: DebugElement;
+  let span: HTMLElement;
+  let mockFavLang: string = "Test Language";
+  let dummyUser: string = "ferozjilla";
+  let spy: any;
+  let userService: UserService;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      providers: [UserService]
+    });
+
     fixture = TestBed.createComponent(AppComponent);
     comp = fixture.componentInstance;
-    de = fixture.debugElement.query(By.css('h1'));
+    
+    // User service injected into the test component.
+    userService = fixture.debugElement.injector.get(UserService);
+
+    // Setup spy on the 'getFavouriteLanguage' method.
+    spy = spyOn(userService, 'getFavouriteLanguage')
+              .and.returnValue(Promise.resolve(mockFavLang))
+
+    de = fixture.debugElement.query(By.css('span'));
+    span = de.nativeElement;
   });
 
-  it('should create component', () => expect(comp).toBeDefined() );
+  it("should show title", () => {
+    fixture.detectChanges();    // Refresh template
 
-  it('should have expected <h1> text', () => {
+    const title:HTMLElement = fixture.debugElement.query(By.css('h1')).nativeElement;
+    expect(title.textContent).toBe('Favourite language');
+  });
+
+  it("should not display language initially", () => {
+    fixture.detectChanges(); 
+    expect(span.textContent).toBe('', 'initially empty');
+    expect(spy.calls.any()).toBe(false, 'getFavouriteLanguage not called')
+  });
+
+  it("should display language on click", () => {
+    const btn  = fixture.debugElement.query(By.css('button')).nativeElement;
+
     fixture.detectChanges();
-    const h1 = de.nativeElement;
-    expect(h1.innerText).toMatch(/angular/i,
-      '<h1> should say something about "Angular"');
+    expect(span.textContent).toBe('', 'before click');
+
+    btn.click(dummyUser);
+    fixture.detectChanges();
+    // getFavouriteLanguage called
+    expect(spy.calls.any()).toBe(true, 'getFavouriteLanguage called')
+
+    fixture.whenStable().then(() => {
+      fixture.detectChanges(); // update the view
+      expect(span.textContent).toBe("Test language", 'after return');
+    });
   });
+
+  //TODO: should display error on invalid username 
 });
