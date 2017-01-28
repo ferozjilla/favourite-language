@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By }              from '@angular/platform-browser';
 import { DebugElement }    from '@angular/core';
+import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
 describe('AppComponent', () => {
   let comp: AppComponent;
@@ -18,7 +19,10 @@ describe('AppComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
-      providers: [UserService]
+      providers: [
+        UserService, 
+        { provide: ComponentFixtureAutoDetect, useValue: true }
+      ]
     });
 
     fixture = TestBed.createComponent(AppComponent);
@@ -36,14 +40,11 @@ describe('AppComponent', () => {
   });
 
   it("should show title", () => {
-    fixture.detectChanges();    // Refresh template
-
     const title:HTMLElement = fixture.debugElement.query(By.css('h1')).nativeElement;
     expect(title.textContent).toBe('Favourite language');
   });
 
   it("should not display language initially", () => {
-    fixture.detectChanges(); 
     expect(span.textContent).toBe('', 'initially empty');
     expect(spy.calls.any()).toBe(false, 'getFavouriteLanguage not called')
   });
@@ -51,16 +52,13 @@ describe('AppComponent', () => {
   it("should display language on click", () => {
     const btn  = fixture.debugElement.query(By.css('button')).nativeElement;
 
-    fixture.detectChanges();
     expect(span.textContent).toBe('', 'before click');
 
     btn.click(dummyUser);
-    fixture.detectChanges();
     // getFavouriteLanguage called
     expect(spy.calls.any()).toBe(true, 'getFavouriteLanguage called')
 
     fixture.whenStable().then(() => {
-      fixture.detectChanges(); // update the view
       expect(span.textContent).toBe("Test language", 'after return');
     });
   });
