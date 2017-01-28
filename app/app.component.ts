@@ -3,14 +3,8 @@ import { UserService } from './user.service';
 
 @Component({
   selector: 'my-app',
-  template: `
-  <h1>Favourite language</h1>
-  <br>
-  <input #input placeholder="Enter username : " />
-  <button (click)="displayFavouriteLanguage(input.value)"></button>
-  <br><br>
-  <span>{{favouriteLang}}</span>
-  `,
+  templateUrl: 'app/app.component.html',
+  styleUrls: ['app/app.component.css'],
   providers: [UserService]
 })
 export class AppComponent  { 

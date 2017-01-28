@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By }              from '@angular/platform-browser';
 import { DebugElement }    from '@angular/core';
+import { async } from '@angular/core/testing';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
 describe('AppComponent', () => {
@@ -16,15 +17,40 @@ describe('AppComponent', () => {
   let spy: any;
   let userService: UserService;
 
-  beforeEach(() => {
+  //async beforeEach
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      declarations: [ AppComponent ], // declare the test component
+      providers:    [ UserService ]
+    })
+    .compileComponents().then(() => {
+      fixture = TestBed.createComponent(AppComponent);
+      comp = fixture.componentInstance;
+
+      // User service injected into the test component.
+      userService = fixture.debugElement.injector.get(UserService);
+
+      // Setup spy on the 'getFavouriteLanguage' method.
+      spy = spyOn(userService, 'getFavouriteLanguage')
+      .and.returnValue(Promise.resolve(mockFavLang))
+
+      de = fixture.debugElement.query(By.css('span'));
+      span = de.nativeElement;
+    });  // compile template and css
+  }));
+/*
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
       providers: [
         UserService, 
         { provide: ComponentFixtureAutoDetect, useValue: true }
       ]
-    });
+    })
+    .compileComponents(); // compile html and css.
+  }));
 
+  beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     comp = fixture.componentInstance;
     
@@ -38,6 +64,7 @@ describe('AppComponent', () => {
     de = fixture.debugElement.query(By.css('span'));
     span = de.nativeElement;
   });
+  */
 
   it("should show title", () => {
     const title:HTMLElement = fixture.debugElement.query(By.css('h1')).nativeElement;
