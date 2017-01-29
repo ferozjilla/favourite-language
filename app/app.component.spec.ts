@@ -1,5 +1,7 @@
 import { AppComponent } from './app.component';
 import { UserService } from './user.service';
+import { Http, BaseRequestOptions } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By }              from '@angular/platform-browser';
@@ -21,7 +23,18 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AppComponent ], // declare the test component
-      providers:    [ UserService ]
+      providers:    [ 
+        MockBackend,
+        BaseRequestOptions,
+        {
+          provide: Http, 
+          useFactory: (backendInstance: MockBackend, defaultOptions: BaseRequestOptions) => {
+            return new Http(backendInstance, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
+        },
+        UserService
+      ]
     })
     .compileComponents().then(() => {
       fixture = TestBed.createComponent(AppComponent);
