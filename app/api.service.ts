@@ -3,13 +3,15 @@ import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
+/**
+ * The API Service abstracts API interaction.
+ * It uses the Angular2 Http module.
+ * */
 @Injectable()
 export class ApiService {
   private api_base = `http://api.github.com/`;
 
   constructor(private http: Http) {
-    //const port = window.location.port? `:${window.location.port}/`: `/`;
-    //this.api_base = this.api_base + port;
     console.log("Frontend directing queries to " + this.api_base);
   }
 

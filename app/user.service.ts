@@ -11,6 +11,11 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.apiService.get(`users/${user}/repos`).then(repos => {
         console.log(repos);
+        let favLang = this.findFavLang(repos);
+        if (!favLang) {
+          reject(`Cannot find favourite language. 
+                 There may be no repository or the favourite language may be null.`);
+        }
         resolve(this.findFavLang(repos));
       })
       .catch(error => {
