@@ -1,6 +1,9 @@
-<h1>Favourite language</h1>
-<br>
-<input #input placeholder="GitHub username" />
-<button (click)="displayFavouriteLanguage(input.value)">Get</button>
-<br><br>
-<span>{{favouriteLang}}</span>
+<div class="container">
+  <img src="https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/github-512.png" alt="GitHub">
+  <h1>Your Favourite Language</h1>
+  <input class="col s1" #input placeholder="GitHub username" />
+  <button (click)="displayFavouriteLanguage(input.value)">Discover</button>
+  <br><br>
+  <br>
+  <span>{{favouriteLang}}</span>
+</div>

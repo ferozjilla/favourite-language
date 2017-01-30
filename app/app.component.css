@@ -1,0 +1,26 @@
+img {
+  height: 14rem;
+  width: 14rem;
+}
+
+h1 {
+  font-family: monospace;
+}
+
+button {
+  font-family: monospace;
+  font-size: xx-large;
+  border: none;
+  background-color: #369;
+  color: #f5f5f5;
+}
+
+input {
+  font-family: monospace;
+  font-size: xx-large;
+}
+
+span {
+  font-size: -webkit-xxx-large;
+  font-family: fantasy;
+}
