@@ -7,16 +7,20 @@ export class UserService {
   constructor(private apiService: ApiService) {}
 
   getFavouriteLanguage(user: string): Promise<string> { 
+    console.log("Getting the user's favourite language");
     return new Promise((resolve, reject) => {
       this.apiService.get(`users/${user}/repos`).then(repos => {
         console.log(repos);
         resolve(this.findFavLang(repos));
-        //TODO: Error handling
+      })
+      .catch(error => {
+        reject(error); 
       });                  
     })
   }
 
   findFavLang(repos): string {
+    console.log('Find Fav Lang called');
     let languages: string[] = repos.map(repo => repo.language);
     let favLang: string = this.mode(languages);
     if (!favLang) {
@@ -27,6 +31,7 @@ export class UserService {
 
   // Returns the mode - highest occuring element, of array
   mode(items: string[]): string {
+    console.log('Mode called');
     if(items.length == 0) {
       return null;
     }
@@ -46,6 +51,7 @@ export class UserService {
           maxCount = modeMap[el];
       }
     }
+    console.log('Mode returning');
     return maxEl;
   }
 }

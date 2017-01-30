@@ -27,7 +27,10 @@ export class ApiService {
     return new Promise((resolve, reject) => {
       this.http.get(this.api_base + endpoint + this.parseQuery(query))
       .map(res => res.json())
-      .subscribe(res => resolve(res));
+      .subscribe(
+        res => resolve(res),
+        error => reject(error)
+      );
     });
   }
 
@@ -35,7 +38,10 @@ export class ApiService {
     return new Promise((resolve, reject) => {
       this.http.post(this.api_base + endpoint + this.parseQuery(query), body || {})
       .map(res => res.json())
-      .subscribe(res => resolve(res));
+      .subscribe(
+        res => resolve(res),
+        error => reject(error)
+      );
     });
   }
 
