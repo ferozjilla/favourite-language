@@ -2,7 +2,7 @@ import { browser, element, by } from 'protractor';
 
 describe('E2E Tests', function () {
 
-  let expectedMsg = 'Favourite language';
+  let expectedMsg = 'Your Favourite Language';
 
   beforeEach(function () {
     browser.get('');

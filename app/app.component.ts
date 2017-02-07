@@ -9,6 +9,7 @@ import { UserService } from './user.service';
 })
 export class AppComponent  { 
   favouriteLang: string;
+  title: string = "Your Favourite Language";
 
   constructor(private userService: UserService) {}
 

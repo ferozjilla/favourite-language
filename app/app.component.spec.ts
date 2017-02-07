@@ -54,11 +54,6 @@ describe('AppComponent', () => {
     });  // compile template and css
   }));
 
-  it("should show title", () => {
-    const title:HTMLElement = fixture.debugElement.query(By.css('h1')).nativeElement;
-    expect(title.textContent).toBe('Favourite language');
-  });
-
   it("should not display language initially", () => {
     expect(span.textContent).toBe('', 'initially empty');
     expect(spy.calls.any()).toBe(false, 'getFavouriteLanguage not called')
