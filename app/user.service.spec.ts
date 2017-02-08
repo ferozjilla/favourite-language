@@ -12,9 +12,32 @@ describe('User service tests', () => {
   });
 
   it('should compute the mode correctly', () => {
-    expect(service.mode(["act", "act", "act", "bat"])).toBe("act");
-    expect(service.mode(["act", "bat", "bat", "cat"])).toBe("bat");
-    expect(service.mode(["cat"])).toBe("cat");
+    let oneMode = ["act", "act", "act", "bat", "cat"];
+    let tiedMode = ["act", "bat", "act", "bat", "cat"];
+    let tiedMode3 = ["act", "bat", "act", "bat", "cat", "cat"];
+    let emptyMode = [null, null];
+    let result;
+
+    // Single mode
+    result = service.mode(oneMode);
+    expect(result).toContain("act");
+    expect(result).not.toContain("bat");
+    expect(result).not.toContain("cat");
+
+    // Tied mode
+    result = service.mode(tiedMode);
+    expect(result).toContain("act");
+    expect(result).toContain("bat");
+    expect(result).not.toContain("cat");
+
+    result = service.mode(tiedMode3);
+    expect(result).toContain("act");
+    expect(result).toContain("bat");
+    expect(result).toContain("cat");
+
+    // Empty mode
+    result = service.mode(emptyMode);
+    expect(result.length).toBe(0);
   });
 
 });

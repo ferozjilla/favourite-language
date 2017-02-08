@@ -2,7 +2,8 @@ import { browser, element, by } from 'protractor';
 
 describe('E2E Tests', function () {
 
-  let expectedMsg = 'Your Favourite Language';
+  let startupMsg = 'Your Favourite Language';
+  let noRegisteredLangMsg = 'The user has no repository with a registered language.';
 
   beforeEach(function () {
     browser.get('');
@@ -12,8 +13,8 @@ describe('E2E Tests', function () {
     expect(true).toBe(true); 
   });
 
-  it('should display: ' + expectedMsg, function () {
-    expect(element(by.css('h1')).getText()).toEqual(expectedMsg);
+  it('should display: ' + startupMsg, function () {
+    expect(element(by.css('h1')).getText()).toEqual(startupMsg);
   });
 
   it('should not display a favourite language initially', () => {
@@ -35,12 +36,12 @@ describe('E2E Tests', function () {
   it('favourite language of RaduSzasz should be Python', () => {
     element(by.css('input')).sendKeys("RaduSzasz");
     element(by.css('button')).click();
-    expect(element(by.css('span')).getText()).toEqual('Python');
+    expect(element(by.css('span')).getText()).toBe('Python,C++,CSS');
   });
   
-  it('should display error when user not found', () => {
-    element(by.css('input')).sendKeys("fpjilla");
+  it('NvPhysX should have no registered language', () => {
+    element(by.css('input')).sendKeys("NvPhysX");
     element(by.css('button')).click();
-    expect(element(by.css('span')).getText()).toEqual('Error: This user does not exist.');
+    expect(element(by.css('span')).getText()).toEqual(noRegisteredLangMsg);
   });
 });
