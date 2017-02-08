@@ -18,7 +18,8 @@ export class AppComponent  {
     .then(language => this.favouriteLang = language)
     .catch(error => {
       console.log(error);
-      this.favouriteLang = "Error: This user does not exist." ;
+      this.favouriteLang = error;
+      //this.favouriteLang = "Error: This user does not exist." ;
     });
   }
 }

@@ -16,7 +16,12 @@ export class UserService {
         resolve(favLang);
       })
       .catch(error => {
-        reject(error); 
+        switch(error.status) {
+          case 404: reject('Invalid GitHub username');
+          case 500: reject('GitHub down');
+          default: reject('Cannot recover favourite language.');
+        }
+        console.error(error);
       });                  
     })
   }

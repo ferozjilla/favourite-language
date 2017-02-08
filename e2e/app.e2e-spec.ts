@@ -4,6 +4,8 @@ describe('E2E Tests', function () {
 
   let startupMsg = 'Your Favourite Language';
   let noRegisteredLangMsg = 'The user has no repository with a registered language.';
+  let invalidUsernameMsg = 'Invalid GitHub username';
+  let noReposMsg = 'The user has no repositories.';
 
   beforeEach(function () {
     browser.get('');
@@ -43,5 +45,17 @@ describe('E2E Tests', function () {
     element(by.css('input')).sendKeys("NvPhysX");
     element(by.css('button')).click();
     expect(element(by.css('span')).getText()).toEqual(noRegisteredLangMsg);
+  });
+
+  it('nonexistnt should be an invalid username', () => {
+    element(by.css('input')).sendKeys("nonexistnt");
+    element(by.css('button')).click();
+    expect(element(by.css('span')).getText()).toEqual(invalidUsernameMsg);
+  });
+  
+  it('nonexi should have no repositories', () => {
+    element(by.css('input')).sendKeys("nonexi");
+    element(by.css('button')).click();
+    expect(element(by.css('span')).getText()).toEqual(noReposMsg);
   });
 });
