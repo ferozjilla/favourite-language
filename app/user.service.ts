@@ -4,22 +4,39 @@ import { ApiService } from './api.service';
 
 @Injectable()
 export class UserService {
+  userLangCache = [];
+
   constructor(private apiService: ApiService) {}
 
   getFavouriteLanguage(user: string): Promise<string> { 
     console.log("Getting the user's favourite language");
     return new Promise((resolve, reject) => {
+      // Check cache
+      if (this.userLangCache[user] != null) {
+        console.log('Returning cached result');
+        resolve(this.userLangCache[user]); 
+        return;
+      }
+
       this.apiService.get(`users/${user}/repos`).then(repos => {
+        console.log('CALLING GET');
         console.log(repos);
         let favLang = this.findFavLang(repos);
-        if (!favLang) reject();
+        // Add to cache.
+        this.userLangCache[user] = favLang;
         resolve(favLang);
       })
       .catch(error => {
         switch(error.status) {
-          case 404: reject('Invalid GitHub username');
-          case 500: reject('GitHub down');
-          default: reject('Cannot recover favourite language.');
+          case 404: 
+            let invalidUnMsg = 'Invalid GitHub username';
+          // Add to cache.
+          this.userLangCache[user] = invalidUnMsg;
+          reject(invalidUnMsg);
+          case 500: 
+            reject('GitHub down');
+          default: 
+            reject('Cannot recover favourite language.');
         }
         console.error(error);
       });                  
