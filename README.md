@@ -37,6 +37,14 @@ To run the unit tests, run the following command (from the project directory and
 npm run test
 ```
 
+Or,
+
+```bash
+npm run test-once
+```
+to run the tests once.
+
+
 
 ### E2E Tests
 
