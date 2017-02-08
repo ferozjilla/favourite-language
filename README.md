@@ -37,13 +37,13 @@ To run the unit tests, run the following command (from the project directory and
 npm run test
 ```
 
-Or,
+This will run the tests in the background, watching for changes.
+
+Alternatively, to run the tests once, you can use the following command.
 
 ```bash
 npm run test-once
 ```
-to run the tests once.
-
 
 
 ### E2E Tests
